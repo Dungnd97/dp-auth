@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, Logger, UnauthorizedException } from '@nestjs/common'
 import { UpdateToStreamerDTO } from './dto/update-to-streamer'
-import { PostgresService } from 'src/database/postgres.service'
+import { PostgresService } from '../../database/postgres.service'
 
 @Injectable()
 export class StreamerService {
@@ -59,12 +59,12 @@ export class StreamerService {
       const { channelCode, url } = channel
       queries.push({
         sql: `
-      INSERT INTO sys_streamer_channel (
-        sys_user_id, dim_channel_code, url
-      ) VALUES ($1, $2, $3)
-      ON CONFLICT (sys_user_id, dim_channel_code) DO UPDATE
-      SET url = EXCLUDED.url
-    `,
+          INSERT INTO sys_streamer_channel (
+            sys_user_id, dim_channel_code, url
+          ) VALUES ($1, $2, $3)
+          ON CONFLICT (sys_user_id, dim_channel_code) DO UPDATE
+          SET url = EXCLUDED.url
+        `,
         params: [streamerId, channelCode, url],
       })
     }
@@ -91,12 +91,12 @@ export class StreamerService {
         path_url_icon: string
       }>(
         `
-    SELECT sys_user_id, slug_link, commission_donate, path_url_music, path_url_icon
-    FROM sys_streamer
-    WHERE ($1::text IS NULL OR slug_link = $1)
-      AND ($2::text IS NULL OR sys_user_id = $2)
-    LIMIT 1
-    `,
+        SELECT sys_user_id, slug_link, commission_donate, path_url_music, path_url_icon
+        FROM sys_streamer
+        WHERE ($1::text IS NULL OR slug_link = $1)
+          AND ($2::text IS NULL OR sys_user_id = $2)
+        LIMIT 1
+        `,
         [slugLink ?? null, id ?? null],
       )
 
@@ -110,11 +110,11 @@ export class StreamerService {
         path_url_icon: string
       }>(
         `
-    SELECT sys_user_id, path_url_music, path_url_icon
-    FROM sys_streamer_config_donate
-    WHERE sys_user_id= $1 AND donate_from <= $2::numeric AND donate_to > $2::numeric
-    LIMIT 1
-    `,
+        SELECT sys_user_id, path_url_music, path_url_icon
+        FROM sys_streamer_config_donate
+        WHERE sys_user_id= $1 AND donate_from <= $2::numeric AND donate_to > $2::numeric
+        LIMIT 1
+        `,
         [streamerInfo.sys_user_id, amount],
       )
 

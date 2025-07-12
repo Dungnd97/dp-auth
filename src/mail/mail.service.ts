@@ -31,7 +31,7 @@ export class MailService {
   // Hàm gửi mail đa năng
   async sendMail(options: { to: string; subject: string; html?: string; text?: string; from?: string }): Promise<void> {
     const mailOptions = {
-      from: options.from || `"DonateProject" <${process.env.MAIL_FROM || 'noreply@example.com'}>`,
+      from: options.from || `"Donate Việt" <${process.env.MAIL_FROM || 'system@donateviet.work.gd'}>`,
       to: options.to,
       subject: options.subject,
       html: options.html,

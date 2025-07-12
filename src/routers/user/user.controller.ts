@@ -7,6 +7,7 @@ import { AuthGuard } from '@nestjs/passport'
 import { ResetPasswordDto } from '../user/dto/reset-password.dto'
 import { ResetPasswordTokenQueryDto } from '../user/dto/reset-password-token-query.dto'
 import { ForgotPasswordDto } from '../user/dto/forgot-password.dto'
+import { MessagePattern } from '@nestjs/microservices'
 
 @ApiTags('User')
 @Controller('user')
